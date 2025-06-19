@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AstroShield</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div id="app">
+    <h1>🛰️ AstroShield</h1>
+    <div class="controls">
+      <label>Data Mode:</label>
+      <select id="mode">
+        <option value="live">Live</option>
+        <option value="demo">Demo</option>
+      </select>
+
+      <label>Satellite Group:</label>
+      <select id="group">
+        <option value="GPS-OPS">GPS-OPS</option>
+        <option value="Starlink">Starlink</option>
+        <option value="Kuiper">Kuiper</option>
+        <option value="OneWeb">OneWeb</option>
+      </select>
+
+      <label>Threshold (km):</label>
+      <input type="number" id="threshold" value="25" min="1" max="100" />
+
+      <button onclick="fetchTLE()">Fetch Data</button>
+      <button onclick="toggleDarkMode()">🌗 Dark Mode</button>
+    </div>
+
+    <div id="results"></div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
