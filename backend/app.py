@@ -53,7 +53,7 @@ def get_tle():
         except Exception as e:
             return jsonify({"error":f"Failed to load fallback TLEs:{str(e)}"}),500
         
-@app.route("/propogate", method=["POST"])
+@app.route("/propogate", methods=["POST"])
 def propogate_orbit():
     tle=request.json.get("tle")
     if not tle or len(tle)<3:
