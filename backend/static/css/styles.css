@@ -1,0 +1,135 @@
+/* Base Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f9;
+  color: #111;
+  margin: 0;
+  padding: 2rem;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+h1 {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Logo */
+h1::before {
+  content: "🛰️";
+  font-size: 1.5rem;
+}
+
+/* Form & Config Panel */
+label, select, input {
+  font-size: 1rem;
+  margin-right: 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(5px);
+}
+
+/* Glassmorphism Panel */
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Buttons */
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4B9CD3;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+button:hover {
+  background-color: #367ab6;
+}
+
+/* Risk Cards */
+.card {
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 1rem 0;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.card.red {
+  background-color: #e74c3c;
+}
+.card.green {
+  background-color: #27ae60;
+}
+.card.yellow {
+  background-color: #f39c12;
+}
+
+/* Dark Mode Support */
+.dark {
+  background: #1a1a2e;
+  color: #eaeaea;
+}
+
+.dark .glass {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.dark label, .dark select, .dark input {
+  background: rgba(0, 0, 0, 0.3);
+  color: #eee;
+  border: 1px solid #555;
+}
+
+.dark .card.red {
+  background-color: #c0392b;
+}
+.dark .card.green {
+  background-color: #229954;
+}
+.dark .card.yellow {
+  background-color: #d68910;
+}
+
+.dark button {
+  background-color: #4B9CD3;
+}
+.dark button:hover {
+  background-color: #2980b9;
+}
+
+/* Starfield Background (Optional) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: -1;
+  animation: starfield 40s linear infinite;
+}
+
+@keyframes starfield {
+  from {
+    background: radial-gradient(white 1px, transparent 1px), black;
+    background-size: 2px 2px;
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1000px);
+  }
+}
+
