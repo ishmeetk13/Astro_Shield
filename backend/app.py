@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from sgp4.api import Satrec, jday
 from datetime import datetime, timedelta, timezone
 import numpy as np
@@ -150,6 +150,9 @@ def detect_collisions():
 
     return jsonify(collisions)
 
+@app.route("/")
+def home():
+    return render_template("index.html")
 # Run the app
 if __name__ == "__main__":
     app.run(debug=True)
