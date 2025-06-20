@@ -1,4 +1,3 @@
-/* === Space-Themed Animated Starfield Background === */
 body {
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #0a1022 0%, #141b37 100%);
@@ -15,7 +14,6 @@ body::before {
   width: 100vw; height: 100vh;
   z-index: -1;
   pointer-events: none;
-  /* Star layers for depth */
   background:
     radial-gradient(white 1.3px, transparent 1.3px) 90px 30px/180px 180px repeat,
     radial-gradient(#cff6ffcc 1.2px, transparent 1.2px) 20px 55px/140px 140px repeat,
@@ -39,8 +37,6 @@ body::before {
     60px 680px, 100px 740px;
   }
 }
-
-/* === Centered App Container === */
 #app {
   max-width: 430px;
   margin: 3rem auto 0 auto;
@@ -54,8 +50,6 @@ body::before {
   gap: 1.5rem;
   align-items: center;
 }
-
-/* === Header === */
 h1 {
   font-size: 2.1rem;
   font-weight: 700;
@@ -72,8 +66,6 @@ h1::before {
   font-size: 1.7rem;
   filter: drop-shadow(0 2px 3px #7ad0ffe0);
 }
-
-/* === Controls - Form Styling === */
 .controls {
   display: flex;
   flex-direction: column;
@@ -106,8 +98,6 @@ select:focus, input[type="number"]:focus {
   border-color: #7ad0ff;
   background: #19244a;
 }
-
-/* === Buttons === */
 .button-row {
   display: flex;
   gap: 0.7rem;
@@ -133,8 +123,6 @@ button .icon {
   margin-right: 0.25em;
   font-size: 1.1em;
 }
-
-/* === Results Cards === */
 #results {
   width: 100%;
   display: flex;
@@ -151,6 +139,7 @@ button .icon {
   display: flex;
   flex-direction: column;
   gap: 0.15em;
+  animation: fadeIn 0.28s ease;
 }
 .card.green {
   background: linear-gradient(93deg, #24f4b6 80%, #1eacff 100%);
@@ -162,13 +151,11 @@ button .icon {
   color: #fff;
   border: 1px solid #ff537044;
 }
-.card.yellow {
-  background: linear-gradient(93deg, #ffe066 80%, #ffb85c 100%);
-  color: #3a2c00;
-  border: 1px solid #ffe06670;
+.card.info {
+  background: linear-gradient(93deg, #7ad0ff 80%, #81e6d9 100%);
+  color: #12314a;
+  border: 1px solid #7ad0ff70;
 }
-
-/* === Card Structure for Usability === */
 .card-header {
   font-size: 1.14rem;
   font-weight: bold;
@@ -177,10 +164,30 @@ button .icon {
   align-items: center;
   gap: 0.5em;
 }
-.card-body {
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 0.3em;
+.card-header .info-icon {
+  font-size: 1.15em;
+  margin-left: 0.3em;
+  color: #2491c9;
+  background: #e6f8ff;
+  border-radius: 50%;
+  padding: 0.08em 0.42em;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #b0e7ff;
+}
+.card .icon {
+  font-size: 1.2em;
+  margin-right: 0.15em;
+  vertical-align: middle;
+}
+.card-message {
+  font-size: 1.04rem;
+  font-weight: 500;
+  margin-top: 0.18em;
+  margin-bottom: 0.1em;
+  color: inherit;
 }
 .card-list {
   list-style: none;
@@ -197,15 +204,10 @@ button .icon {
   color: #fff7cf;
   font-weight: 600;
 }
-.card-help {
-  font-size: 0.90em;
-  color: #b3bdd1;
-  margin-left: 2em;
-}
 .card-summary {
   margin-top: 0.5em;
   font-weight: bold;
-  color: #ffe066;
+  color: #2f6a92;
 }
 .card.red .card-summary {
   color: #ffbdbd;
@@ -213,17 +215,6 @@ button .icon {
 .card.green .card-summary {
   color: #1ee88e;
 }
-
-.card strong {
-  color: inherit;
-}
-.card .icon {
-  font-size: 1.2em;
-  margin-right: 0.15em;
-  vertical-align: middle;
-}
-
-/* === Responsive Design === */
 @media (max-width: 600px) {
   #app {
     margin: 0.8rem;
@@ -241,10 +232,6 @@ button .icon {
   button {
     width: 100%;
   }
-}
-/* === Simple fade-in for cards === */
-.card {
-  animation: fadeIn 0.28s ease;
 }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(14px);}
