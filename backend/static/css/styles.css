@@ -1,10 +1,4 @@
-/* Reset & Base Styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* === Space-Themed Animated Starfield Background === */
 body {
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #0a1022 0%, #141b37 100%);
@@ -13,10 +7,7 @@ body {
   padding: 0;
   transition: background 0.4s, color 0.4s;
   position: relative;
-  /* Starfield effect (see below for ::before) */
 }
-
-/* Starfield Animated Background */
 body::before {
   content: "";
   position: fixed;
@@ -24,22 +15,18 @@ body::before {
   width: 100vw; height: 100vh;
   z-index: -1;
   pointer-events: none;
-  /* Multiple layers of stars for depth/parallax */
+  /* Star layers for depth */
   background:
-    /* Layer 1: Big bright stars */
     radial-gradient(white 1.3px, transparent 1.3px) 90px 30px/180px 180px repeat,
     radial-gradient(#cff6ffcc 1.2px, transparent 1.2px) 20px 55px/140px 140px repeat,
-    /* Layer 2: Medium stars */
     radial-gradient(#7ad0ffaa 0.8px, transparent 0.8px) 50px 120px/80px 80px repeat,
     radial-gradient(#fff9c2aa 0.7px, transparent 0.7px) 0 0/120px 120px repeat,
-    /* Layer 3: Faint far stars */
     radial-gradient(#6386fa44 0.5px, transparent 0.5px) 60px 80px/50px 50px repeat,
     radial-gradient(white 0.4px, transparent 0.4px) 100px 140px/60px 60px repeat,
     transparent;
   animation: starfield-move 240s linear infinite;
   opacity: 0.65;
 }
-
 @keyframes starfield-move {
   from { background-position:
     90px 30px, 20px 55px,
@@ -53,7 +40,7 @@ body::before {
   }
 }
 
-/* Centered App Container */
+/* === Centered App Container === */
 #app {
   max-width: 430px;
   margin: 3rem auto 0 auto;
@@ -68,7 +55,7 @@ body::before {
   align-items: center;
 }
 
-/* Header */
+/* === Header === */
 h1 {
   font-size: 2.1rem;
   font-weight: 700;
@@ -86,27 +73,24 @@ h1::before {
   filter: drop-shadow(0 2px 3px #7ad0ffe0);
 }
 
-/* Controls - form styling */
+/* === Controls - Form Styling === */
 .controls {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
   width: 100%;
 }
-
 .form-row {
   display: flex;
   align-items: center;
   gap: 0.8rem;
   width: 100%;
 }
-
 label {
   font-size: 1rem;
   min-width: 110px;
   color: #b4c7ff;
 }
-
 select, input[type="number"] {
   font-size: 1rem;
   padding: 7px 12px;
@@ -118,13 +102,12 @@ select, input[type="number"] {
   transition: border-color 0.2s, background 0.2s;
   width: 120px;
 }
-
 select:focus, input[type="number"]:focus {
   border-color: #7ad0ff;
   background: #19244a;
 }
 
-/* Buttons */
+/* === Buttons === */
 .button-row {
   display: flex;
   gap: 0.7rem;
@@ -146,20 +129,18 @@ button:hover {
   background: linear-gradient(92deg, #7ad0ff 80%, #233863 100%);
   transform: translateY(-2px) scale(1.035);
 }
-
 button .icon {
   margin-right: 0.25em;
   font-size: 1.1em;
 }
 
-/* Results Cards */
+/* === Results Cards === */
 #results {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 }
-
 .card {
   padding: 1.1rem 1rem 1rem 1rem;
   border-radius: 12px;
@@ -171,7 +152,6 @@ button .icon {
   flex-direction: column;
   gap: 0.15em;
 }
-
 .card.green {
   background: linear-gradient(93deg, #24f4b6 80%, #1eacff 100%);
   color: #0c2338;
@@ -188,18 +168,62 @@ button .icon {
   border: 1px solid #ffe06670;
 }
 
-/* Status Icons for cards */
+/* === Card Structure for Usability === */
+.card-header {
+  font-size: 1.14rem;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.card-body {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0.3em;
+}
+.card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.6em 0;
+}
+.card-list li {
+  margin-bottom: 0.4em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+}
+.card-list strong {
+  color: #fff7cf;
+  font-weight: 600;
+}
+.card-help {
+  font-size: 0.90em;
+  color: #b3bdd1;
+  margin-left: 2em;
+}
+.card-summary {
+  margin-top: 0.5em;
+  font-weight: bold;
+  color: #ffe066;
+}
+.card.red .card-summary {
+  color: #ffbdbd;
+}
+.card.green .card-summary {
+  color: #1ee88e;
+}
+
 .card strong {
   color: inherit;
 }
-
 .card .icon {
   font-size: 1.2em;
   margin-right: 0.15em;
   vertical-align: middle;
 }
 
-/* Responsive Design */
+/* === Responsive Design === */
 @media (max-width: 600px) {
   #app {
     margin: 0.8rem;
@@ -218,49 +242,7 @@ button .icon {
     width: 100%;
   }
 }
-
-/* Dark Mode (default) */
-.dark body,
-body.dark {
-  background: linear-gradient(135deg, #0a1022 0%, #141b37 100%);
-  color: #e4e8fc;
-}
-.dark #app,
-body.dark #app {
-  background: rgba(20,24,48,0.92);
-  box-shadow: 0 8px 32px 0 rgba(19,28,76,0.25);
-}
-.dark label {
-  color: #b4c7ff;
-}
-.dark select, .dark input[type="number"] {
-  background: #12192f;
-  color: #e4e8fc;
-  border: 1px solid #2e3e68;
-}
-.dark .card.green {
-  background: linear-gradient(93deg, #24f4b6 80%, #1eacff 100%);
-  color: #0c2338;
-  border: 1px solid #3afccd44;
-}
-.dark .card.red {
-  background: linear-gradient(93deg, #ff5370 90%, #9745ff 100%);
-  color: #fff;
-  border: 1px solid #ff537044;
-}
-.dark .card.yellow {
-  background: linear-gradient(93deg, #ffe066 80%, #ffb85c 100%);
-  color: #3a2c00;
-  border: 1px solid #ffe06670;
-}
-.dark button {
-  background: linear-gradient(92deg, #233863 80%, #7ad0ff 100%);
-}
-.dark button:hover {
-  background: linear-gradient(92deg, #7ad0ff 80%, #233863 100%);
-}
-
-/* Simple fade-in for cards */
+/* === Simple fade-in for cards === */
 .card {
   animation: fadeIn 0.28s ease;
 }
