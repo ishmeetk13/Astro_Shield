@@ -1,135 +1,270 @@
-/* Base Styles */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f4f6f9;
-  color: #111;
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
   margin: 0;
-  padding: 2rem;
-  transition: background 0.4s ease, color 0.4s ease;
+  padding: 0;
 }
 
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0a1022 0%, #141b37 100%);
+  color: #e4e8fc;
+  min-height: 100vh;
+  padding: 0;
+  transition: background 0.4s, color 0.4s;
+  position: relative;
+  /* Starfield effect (see below for ::before) */
+}
+
+/* Starfield Animated Background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  /* Multiple layers of stars for depth/parallax */
+  background:
+    /* Layer 1: Big bright stars */
+    radial-gradient(white 1.3px, transparent 1.3px) 90px 30px/180px 180px repeat,
+    radial-gradient(#cff6ffcc 1.2px, transparent 1.2px) 20px 55px/140px 140px repeat,
+    /* Layer 2: Medium stars */
+    radial-gradient(#7ad0ffaa 0.8px, transparent 0.8px) 50px 120px/80px 80px repeat,
+    radial-gradient(#fff9c2aa 0.7px, transparent 0.7px) 0 0/120px 120px repeat,
+    /* Layer 3: Faint far stars */
+    radial-gradient(#6386fa44 0.5px, transparent 0.5px) 60px 80px/50px 50px repeat,
+    radial-gradient(white 0.4px, transparent 0.4px) 100px 140px/60px 60px repeat,
+    transparent;
+  animation: starfield-move 240s linear infinite;
+  opacity: 0.65;
+}
+
+@keyframes starfield-move {
+  from { background-position:
+    90px 30px, 20px 55px,
+    50px 120px, 0 0,
+    60px 80px, 100px 140px;
+  }
+  to { background-position:
+    90px 630px, 20px 655px,
+    50px 720px, 0 600px,
+    60px 680px, 100px 740px;
+  }
+}
+
+/* Centered App Container */
+#app {
+  max-width: 430px;
+  margin: 3rem auto 0 auto;
+  padding: 2.5rem 2rem 2rem 2rem;
+  background: rgba(20,24,48,0.92);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(19,28,76,0.25);
+  backdrop-filter: blur(9px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+/* Header */
 h1 {
-  font-size: 2rem;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #81a2ff;
   display: flex;
   align-items: center;
   gap: 10px;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.2em;
+  text-shadow: 0 2px 12px #1a2042, 0 0px 4px #5179d3a0;
 }
-
-/* Logo */
 h1::before {
   content: "🛰️";
-  font-size: 1.5rem;
+  font-size: 1.7rem;
+  filter: drop-shadow(0 2px 3px #7ad0ffe0);
 }
 
-/* Form & Config Panel */
-label, select, input {
+/* Controls - form styling */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+label {
   font-size: 1rem;
-  margin-right: 10px;
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: rgba(255,255,255,0.5);
-  backdrop-filter: blur(5px);
+  min-width: 110px;
+  color: #b4c7ff;
 }
 
-/* Glassmorphism Panel */
-.glass {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 20px;
-  margin-top: 20px;
+select, input[type="number"] {
+  font-size: 1rem;
+  padding: 7px 12px;
+  border-radius: 7px;
+  border: 1px solid #2e3e68;
+  background: #12192f;
+  color: #e4e8fc;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  width: 120px;
+}
+
+select:focus, input[type="number"]:focus {
+  border-color: #7ad0ff;
+  background: #19244a;
 }
 
 /* Buttons */
+.button-row {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+}
 button {
-  padding: 8px 12px;
+  padding: 8px 17px;
   border: none;
-  border-radius: 6px;
-  background-color: #4B9CD3;
-  color: white;
+  border-radius: 7px;
+  font-size: 1rem;
+  font-weight: 500;
+  background: linear-gradient(92deg, #233863 80%, #7ad0ff 100%);
+  color: #fff;
   cursor: pointer;
-  transition: background 0.3s ease;
+  box-shadow: 0 2px 8px #16222c85;
+  transition: background 0.2s, transform 0.12s;
 }
 button:hover {
-  background-color: #367ab6;
+  background: linear-gradient(92deg, #7ad0ff 80%, #233863 100%);
+  transform: translateY(-2px) scale(1.035);
 }
 
-/* Risk Cards */
+button .icon {
+  margin-right: 0.25em;
+  font-size: 1.1em;
+}
+
+/* Results Cards */
+#results {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
 .card {
-  padding: 1rem;
+  padding: 1.1rem 1rem 1rem 1rem;
   border-radius: 12px;
-  margin: 1rem 0;
+  font-size: 1.08rem;
+  font-weight: 500;
   color: white;
-  font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(37, 82, 169, 0.13);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+}
+
+.card.green {
+  background: linear-gradient(93deg, #24f4b6 80%, #1eacff 100%);
+  color: #0c2338;
+  border: 1px solid #3afccd44;
 }
 .card.red {
-  background-color: #e74c3c;
-}
-.card.green {
-  background-color: #27ae60;
+  background: linear-gradient(93deg, #ff5370 90%, #9745ff 100%);
+  color: #fff;
+  border: 1px solid #ff537044;
 }
 .card.yellow {
-  background-color: #f39c12;
+  background: linear-gradient(93deg, #ffe066 80%, #ffb85c 100%);
+  color: #3a2c00;
+  border: 1px solid #ffe06670;
 }
 
-/* Dark Mode Support */
-.dark {
-  background: #1a1a2e;
-  color: #eaeaea;
+/* Status Icons for cards */
+.card strong {
+  color: inherit;
 }
 
-.dark .glass {
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
+.card .icon {
+  font-size: 1.2em;
+  margin-right: 0.15em;
+  vertical-align: middle;
 }
 
-.dark label, .dark select, .dark input {
-  background: rgba(0, 0, 0, 0.3);
-  color: #eee;
-  border: 1px solid #555;
+/* Responsive Design */
+@media (max-width: 600px) {
+  #app {
+    margin: 0.8rem;
+    padding: 1rem;
+    max-width: 99vw;
+  }
+  .form-row label {
+    min-width: 90px;
+  }
+  .form-row, .button-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+  button {
+    width: 100%;
+  }
 }
 
-.dark .card.red {
-  background-color: #c0392b;
+/* Dark Mode (default) */
+.dark body,
+body.dark {
+  background: linear-gradient(135deg, #0a1022 0%, #141b37 100%);
+  color: #e4e8fc;
+}
+.dark #app,
+body.dark #app {
+  background: rgba(20,24,48,0.92);
+  box-shadow: 0 8px 32px 0 rgba(19,28,76,0.25);
+}
+.dark label {
+  color: #b4c7ff;
+}
+.dark select, .dark input[type="number"] {
+  background: #12192f;
+  color: #e4e8fc;
+  border: 1px solid #2e3e68;
 }
 .dark .card.green {
-  background-color: #229954;
+  background: linear-gradient(93deg, #24f4b6 80%, #1eacff 100%);
+  color: #0c2338;
+  border: 1px solid #3afccd44;
+}
+.dark .card.red {
+  background: linear-gradient(93deg, #ff5370 90%, #9745ff 100%);
+  color: #fff;
+  border: 1px solid #ff537044;
 }
 .dark .card.yellow {
-  background-color: #d68910;
+  background: linear-gradient(93deg, #ffe066 80%, #ffb85c 100%);
+  color: #3a2c00;
+  border: 1px solid #ffe06670;
 }
-
 .dark button {
-  background-color: #4B9CD3;
+  background: linear-gradient(92deg, #233863 80%, #7ad0ff 100%);
 }
 .dark button:hover {
-  background-color: #2980b9;
+  background: linear-gradient(92deg, #7ad0ff 80%, #233863 100%);
 }
 
-/* Starfield Background (Optional) */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  z-index: -1;
-  animation: starfield 40s linear infinite;
+/* Simple fade-in for cards */
+.card {
+  animation: fadeIn 0.28s ease;
 }
-
-@keyframes starfield {
-  from {
-    background: radial-gradient(white 1px, transparent 1px), black;
-    background-size: 2px 2px;
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-1000px);
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(14px);}
+  to { opacity: 1; transform: none;}
 }
-
