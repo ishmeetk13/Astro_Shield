@@ -49,8 +49,3 @@ function fetchTLE() {
     });
 }
 
-// Toggle between light and dark mode
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
-  document.documentElement.classList.toggle('dark');
-}
