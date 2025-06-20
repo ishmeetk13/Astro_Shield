@@ -9,7 +9,6 @@ function fetchTLE() {
       <div class="card-header">
         <span class="icon">⏳</span>
         <strong>Checking for possible satellite collisions</strong>
-        <span class="info-icon" title="Checking for any close approaches between satellites">?</span>
       </div>
     </div>
   `;
@@ -20,7 +19,7 @@ function fetchTLE() {
     .then(data => {
       if (!Array.isArray(data)) {
         results.innerHTML = `
-          <div class="card red">
+          <div class="card error">
             <div class="card-header">
               <span class="icon">❌</span>
               <strong>Error loading satellite data</strong>
@@ -40,7 +39,7 @@ function fetchTLE() {
           results.innerHTML = '';
           if (resData.length === 0) {
             results.innerHTML = `
-              <div class="card green">
+              <div class="card success">
                 <div class="card-header">
                   <span class="icon">✅</span>
                   <strong>All Clear!</strong>
@@ -51,22 +50,15 @@ function fetchTLE() {
               </div>`;
           } else {
             resData.forEach(c => {
-              // Info card for warning, red for danger
-              const color = c.risky ? 'info' : 'red';
-              const riskLabel = c.risky ? '⚠️ Warning' : '🚨 Danger';
-              const riskText = c.risky
-                ? 'These satellites could come close enough to risk a collision. Please monitor closely.'
-                : 'These satellites are on a dangerous collision course. Immediate action is recommended!';
-              // Turn seconds into minutes/seconds for tCA
+              // All collisions are "Danger" with space/purple colors
               const tcaMin = Math.floor(c.tca / 60);
               const tcaSec = Math.round(c.tca % 60);
 
               results.innerHTML += `
-                <div class="card ${color}">
+                <div class="card danger">
                   <div class="card-header">
-                    <span class="icon">${riskLabel}</span>
-                    <strong>${c.risky ? "Warning" : "Danger"}</strong>
-                    ${c.risky ? '<span class="info-icon" title="Satellites may approach each other closely">?</span>' : ""}
+                    <span class="icon">🚨</span>
+                    <strong>Danger</strong>
                   </div>
                   <div class="card-message">
                     <ul class="card-list">
@@ -87,7 +79,6 @@ function fetchTLE() {
                         <span>${c.delta_v.map(v => v.toFixed(5)).join(', ')} km/s</span>
                       </li>
                     </ul>
-                    <div class="card-summary">${riskText}</div>
                   </div>
                 </div>
               `;
@@ -96,7 +87,7 @@ function fetchTLE() {
         })
         .catch(() => {
           results.innerHTML = `
-            <div class="card red">
+            <div class="card error">
               <div class="card-header">
                 <span class="icon">❌</span>
                 <strong>Failed to check collisions</strong>
@@ -106,7 +97,7 @@ function fetchTLE() {
     })
     .catch(() => {
       results.innerHTML = `
-        <div class="card red">
+        <div class="card error">
           <div class="card-header">
             <span class="icon">❌</span>
             <strong>Something went wrong</strong>

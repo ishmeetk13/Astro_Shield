@@ -53,18 +53,18 @@ body::before {
 h1 {
   font-size: 2.1rem;
   font-weight: 700;
-  color: #81a2ff;
+  color: #b37cff;
   display: flex;
   align-items: center;
   gap: 10px;
   letter-spacing: 0.5px;
   margin-bottom: 0.2em;
-  text-shadow: 0 2px 12px #1a2042, 0 0px 4px #5179d3a0;
+  text-shadow: 0 2px 12px #1a2042, 0 0px 4px #a684ffa0;
 }
 h1::before {
   content: "🛰️";
   font-size: 1.7rem;
-  filter: drop-shadow(0 2px 3px #7ad0ffe0);
+  filter: drop-shadow(0 2px 3px #b37cff80);
 }
 .controls {
   display: flex;
@@ -81,22 +81,22 @@ h1::before {
 label {
   font-size: 1rem;
   min-width: 110px;
-  color: #b4c7ff;
+  color: #d1bcff;
 }
 select, input[type="number"] {
   font-size: 1rem;
   padding: 7px 12px;
   border-radius: 7px;
-  border: 1px solid #2e3e68;
-  background: #12192f;
+  border: 1px solid #6254a8;
+  background: #1d1633;
   color: #e4e8fc;
   outline: none;
   transition: border-color 0.2s, background 0.2s;
   width: 120px;
 }
 select:focus, input[type="number"]:focus {
-  border-color: #7ad0ff;
-  background: #19244a;
+  border-color: #b37cff;
+  background: #292054;
 }
 .button-row {
   display: flex;
@@ -109,14 +109,14 @@ button {
   border-radius: 7px;
   font-size: 1rem;
   font-weight: 500;
-  background: linear-gradient(92deg, #233863 80%, #7ad0ff 100%);
+  background: linear-gradient(92deg, #3f297e 80%, #b37cff 100%);
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 2px 8px #16222c85;
+  box-shadow: 0 2px 8px #322a5985;
   transition: background 0.2s, transform 0.12s;
 }
 button:hover {
-  background: linear-gradient(92deg, #7ad0ff 80%, #233863 100%);
+  background: linear-gradient(92deg, #b37cff 80%, #3f297e 100%);
   transform: translateY(-2px) scale(1.035);
 }
 button .icon {
@@ -134,20 +134,25 @@ button .icon {
   border-radius: 12px;
   font-size: 1.08rem;
   font-weight: 500;
-  color: white;
-  box-shadow: 0 4px 16px rgba(37, 82, 169, 0.13);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(90, 60, 169, 0.13);
   display: flex;
   flex-direction: column;
   gap: 0.15em;
   animation: fadeIn 0.28s ease;
 }
-.card.green {
+.card.danger {
+  background: linear-gradient(93deg, #522177 70%, #8d39e1 100%);
+  color: #fff;
+  border: 1px solid #b37cff55;
+}
+.card.success {
   background: linear-gradient(93deg, #24f4b6 80%, #1eacff 100%);
   color: #0c2338;
   border: 1px solid #3afccd44;
 }
-.card.red {
-  background: linear-gradient(93deg, #ff5370 90%, #9745ff 100%);
+.card.error {
+  background: linear-gradient(93deg, #ff5370 90%, #b700ff 100%);
   color: #fff;
   border: 1px solid #ff537044;
 }
@@ -163,19 +168,6 @@ button .icon {
   display: flex;
   align-items: center;
   gap: 0.5em;
-}
-.card-header .info-icon {
-  font-size: 1.15em;
-  margin-left: 0.3em;
-  color: #2491c9;
-  background: #e6f8ff;
-  border-radius: 50%;
-  padding: 0.08em 0.42em;
-  font-weight: bold;
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: middle;
-  border: 1px solid #b0e7ff;
 }
 .card .icon {
   font-size: 1.2em;
@@ -201,19 +193,8 @@ button .icon {
   gap: 0.1em;
 }
 .card-list strong {
-  color: #fff7cf;
+  color: #ffeaff;
   font-weight: 600;
-}
-.card-summary {
-  margin-top: 0.5em;
-  font-weight: bold;
-  color: #2f6a92;
-}
-.card.red .card-summary {
-  color: #ffbdbd;
-}
-.card.green .card-summary {
-  color: #1ee88e;
 }
 @media (max-width: 600px) {
   #app {
