@@ -38,7 +38,7 @@ body::before {
   }
 }
 #app {
-  max-width: 430px;
+  max-width: 470px;
   margin: 3rem auto 0 auto;
   padding: 2.5rem 2rem 2rem 2rem;
   background: rgba(20,24,48,0.92);
@@ -49,39 +49,105 @@ body::before {
   flex-direction: column;
   gap: 1.5rem;
   align-items: center;
+  position: relative;
 }
-h1 {
+
+/* Header, branding, tagline, help */
+.astro-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.2rem;
+  position: relative;
+  padding-bottom: 0.7rem;
+}
+.astro-title {
   font-size: 2.1rem;
   font-weight: 700;
   color: #b37cff;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   letter-spacing: 0.5px;
-  margin-bottom: 0.2em;
-  text-shadow: 0 2px 12px #1a2042, 0 0px 4px #a684ffa0;
+  display: inline-block;
+  vertical-align: middle;
 }
-h1::before {
-  content: "🛰️";
-  font-size: 1.7rem;
+.astro-emoji {
+  font-size: 2rem;
+  vertical-align: middle;
+  margin-right: 0.4rem;
   filter: drop-shadow(0 2px 3px #b37cff80);
 }
+.astro-tagline {
+  margin-top: 0.3rem;
+  font-size: 1.05rem;
+  color: #b6b8e7;
+  letter-spacing: 0.1px;
+  font-weight: 400;
+  text-shadow: 0 1px 7px #181d39b0;
+  margin-bottom: 0.5em;
+}
+.help-btn {
+  position: absolute;
+  right: 0.8rem;
+  top: 0.2rem;
+  background: #2a2250;
+  border: none;
+  color: #b37cff;
+  font-size: 1.25rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, color 0.18s;
+  box-shadow: 0 2px 7px #1a204244;
+}
+.help-btn:hover, .help-btn:focus { background: #b37cff; color: #fff; }
+.help-tooltip {
+  display: none;
+  position: absolute;
+  right: 0.2rem;
+  top: 2.3rem;
+  background: #221a3d;
+  color: #eee;
+  padding: 0.85rem 1.2rem;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  width: 260px;
+  box-shadow: 0 4px 28px 0 #0004;
+  z-index: 10;
+  text-align: left;
+  border: 1px solid #b37cff50;
+}
+.help-btn:focus + .help-tooltip,
+.help-btn:hover + .help-tooltip {
+  display: block;
+}
+
+/* Controls and form */
 .controls {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
   width: 100%;
 }
+#astroForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
 .form-row {
   display: flex;
   align-items: center;
   gap: 0.8rem;
   width: 100%;
+  position: relative;
 }
 label {
   font-size: 1rem;
   min-width: 110px;
   color: #d1bcff;
+  font-weight: 500;
 }
 select, input[type="number"] {
   font-size: 1rem;
@@ -98,12 +164,47 @@ select:focus, input[type="number"]:focus {
   border-color: #b37cff;
   background: #292054;
 }
+.threshold-help {
+  display: inline-block;
+  margin-left: 0.25rem;
+  font-size: 1.1rem;
+  color: #b37cff;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 1.3em;
+  height: 1.3em;
+  text-align: center;
+  transition: background 0.18s, color 0.18s;
+}
+.threshold-help:hover, .threshold-help:focus {
+  background: #b37cff;
+  color: #fff;
+}
+.threshold-tooltip {
+  display: none;
+  position: absolute;
+  background: #221a3d;
+  color: #eee;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.96rem;
+  width: 210px;
+  top: 2.1rem;
+  left: 0.7rem;
+  box-shadow: 0 8px 32px #0005;
+  z-index: 10;
+  border: 1px solid #b37cff50;
+}
+.threshold-help:hover + .threshold-tooltip,
+.threshold-help:focus + .threshold-tooltip {
+  display: block;
+}
 .button-row {
   display: flex;
   gap: 0.7rem;
   margin-top: 0.5rem;
 }
-button {
+button, #checkBtn {
   padding: 8px 17px;
   border: none;
   border-radius: 7px;
@@ -115,11 +216,11 @@ button {
   box-shadow: 0 2px 8px #322a5985;
   transition: background 0.2s, transform 0.12s;
 }
-button:hover {
+button:hover, #checkBtn:hover {
   background: linear-gradient(92deg, #b37cff 80%, #3f297e 100%);
   transform: translateY(-2px) scale(1.035);
 }
-button .icon {
+button .icon, #checkBtn .icon {
   margin-right: 0.25em;
   font-size: 1.1em;
 }
@@ -128,7 +229,10 @@ button .icon {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  margin-top: 0.1em;
 }
+
+/* Card styles and animation */
 .card {
   padding: 1.1rem 1rem 1rem 1rem;
   border-radius: 12px;
@@ -139,17 +243,21 @@ button .icon {
   display: flex;
   flex-direction: column;
   gap: 0.15em;
-  animation: fadeIn 0.28s ease;
+  opacity: 1;
+  animation: fadeInCard 0.7s cubic-bezier(.48,1.41,.66,.97);
+  transition: box-shadow 0.18s, opacity 0.2s;
 }
 .card.danger {
   background: linear-gradient(93deg, #522177 70%, #8d39e1 100%);
   color: #fff;
   border: 1px solid #b37cff55;
+  box-shadow: 0 6px 32px #b37cff33;
 }
 .card.success {
   background: linear-gradient(93deg, #24f4b6 80%, #1eacff 100%);
   color: #0c2338;
   border: 1px solid #3afccd44;
+  box-shadow: 0 6px 28px #24f4b655;
 }
 .card.error {
   background: linear-gradient(93deg, #ff5370 90%, #b700ff 100%);
@@ -210,11 +318,18 @@ button .icon {
     align-items: stretch;
     gap: 0.4rem;
   }
-  button {
+  button, #checkBtn {
     width: 100%;
+  }
+  .astro-header {
+    padding-bottom: 0.3rem;
   }
 }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(14px);}
+  to { opacity: 1; transform: none;}
+}
+@keyframes fadeInCard {
+  from { opacity: 0; transform: translateY(35px) scale(0.98);}
   to { opacity: 1; transform: none;}
 }
