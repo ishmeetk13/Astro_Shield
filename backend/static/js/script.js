@@ -108,47 +108,29 @@ function showResult(resData) {
       </div>`;
     const card = results.querySelector('.card.success');
     if (card) animateCard(card);
-    // Optional: confetti or animation here
   } else if (Array.isArray(resData)) {
-    // Show each collision as a danger card
+    // Show each collision as a simple danger card (short format)
     resData.forEach(c => {
       const tcaMin = Math.floor(c.tca / 60);
       const tcaSec = Math.round(c.tca % 60);
-      const cardHtml = `
+      // Compose short message
+      let timeStr = tcaMin > 0 ? `${tcaMin} min` : '';
+      if (tcaSec > 0) timeStr += (timeStr ? ' ' : '') + `${tcaSec} sec`;
+      results.innerHTML += `
         <div class="card danger">
           <div class="card-header">
-            <span class="icon">🚨</span>
-            <strong>Danger</strong>
+            Danger! <span class="icon">🚨</span>
           </div>
           <div class="card-message">
-            <ul class="card-list">
-              <li>
-                <strong>Satellites involved:</strong>
-                <span>${c.sat1} &amp; ${c.sat2}</span>
-              </li>
-              <li>
-                <strong>Closest distance:</strong>
-                <span>${c.distance.toFixed(2)} km</span>
-              </li>
-              <li>
-                <strong>Time until closest point:</strong>
-                <span>${tcaMin > 0 ? `${tcaMin} min ` : ''}${tcaSec} sec from now</span>
-              </li>
-              <li>
-                <strong>Recommended speed change:</strong>
-                <span>${c.delta_v.map(v => v.toFixed(5)).join(', ')} km/s</span>
-              </li>
-            </ul>
+            ${c.sat1} and ${c.sat2} will come within ${c.distance.toFixed(2)}km in ${timeStr || 'soon'}.
           </div>
         </div>
       `;
-      results.innerHTML += cardHtml;
     });
     // Animate all danger cards
     results.querySelectorAll('.card.danger').forEach(animateCard);
   }
 }
-
 // DOMContentLoaded and form submit setup
 document.addEventListener('DOMContentLoaded', function() {
   // Help and threshold tooltip setup
