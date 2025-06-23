@@ -119,7 +119,7 @@ function showResult(resData) {
             ${c.sat1} and ${c.sat2} will come within ${c.distance.toFixed(2)}km in ${timeStr || '1 sec'}.
           </div>
           <div class="card-message">
-            Immediate maneuver required to avoid catastrophic collision.
+            Immediate action needed
           </div>
           <button class="collapse-toggle" type="button" data-target="${maneuverId}">
             Show Maneuver Suggestion ▼

@@ -260,12 +260,12 @@ select:focus, input[type="number"]:focus {
   font-weight: 600;
   margin-top: 0.18em;
   margin-bottom: 0.1em;
-  color: inherit;
+  color: #fff;
 }
 .card.danger {
-  background: linear-gradient(93deg, #dc143c 70%, #2c172e 100%);
+  background: linear-gradient(93deg, #23274d 70%, #1b231b 100%);
   color: #fff;
-  border: 2px solid #dc143cbb;
+  border: 2px solid #7a78a1;
   box-shadow: 0 6px 32px #dc143c44;
   animation: pulseDanger 1.2s infinite alternate;
 }
