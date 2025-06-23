@@ -27,14 +27,14 @@ AstroShield provides a simple, interactive, and visually engaging platform to pr
 - **Easy to use:** Works great on desktop and mobile with tooltips for new users.
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Python (Flask)
 - **Data Source:** Real satellite TLE (Two-Line Element) data fetched from Celestrak 
 ---
 
-## 🌐 Deployment
+## Deployment
 
 **Live Demo:** 
 ---
