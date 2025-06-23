@@ -3,35 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AstroShield 🛰️</title>
-  <!-- Inter font for clean look -->
+  <title>AstroShield</title>
   <link href="https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
 </head>
 <body>
   <div id="app">
     <header class="astro-header">
-      <span class="astro-title"><span class="astro-emoji">🛰️</span>AstroShield</span>
-      <button class="help-btn" aria-label="Help" tabindex="0">?</button>
-      <div class="help-tooltip">
-        <strong>How to use:</strong><br>
-        Select mode, satellite group, and threshold.<br>
-        Click <b>Check Collisions</b> to see if any satellites are at risk of colliding.<br>
-        Results show instantly below!
-      </div>
+      <span class="astro-title">AstroShield</span>
       <div class="astro-tagline">
         Predicting Satellite Collisions with Real Orbital Data
       </div>
     </header>
-    <div class="controls">
-      <form id="astroForm" autocomplete="off">
-        <div class="form-row">
-          <label for="mode">Data Mode:</label>
-          <select id="mode" name="mode">
-            <option value="live">Live</option>
-            <option value="demo">Demo</option>
-          </select>
-        </div>
+    <div class="mode-row">
+      <button type="button" id="liveModeBtn" class="mode-btn selected">LIVE</button>
+      <button type="button" id="demoModeBtn" class="mode-btn">DEMO</button>
+      <button type="button" id="optionsBtn" class="options-btn" aria-label="Advanced options" title="Advanced options">⚙️</button>
+    </div>
+    <form id="astroForm" autocomplete="off">
+      <div class="button-row">
+        <button type="submit" id="checkBtn">CHECK COLLISION</button>
+      </div>
+      <div id="optionsPanel" class="options-panel">
         <div class="form-row">
           <label for="group">Satellite Group:</label>
           <select id="group" name="group">
@@ -49,13 +42,10 @@
               The minimum distance (in kilometers) between satellites to trigger a collision alert. Lower values mean stricter checks.
             </span>
           </label>
-          <input type="number" id="threshold" name="threshold" value="25" min="1" max="100" />
+          <input type="number" id="threshold" name="threshold" value="0.06" min="0.01" max="10" step="0.01" />
         </div>
-        <div class="button-row">
-          <button type="submit" id="checkBtn"><span class="icon">🔎</span>Check Collisions</button>
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
     <div id="results"></div>
   </div>
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
