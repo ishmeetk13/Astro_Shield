@@ -1,41 +1,10 @@
 body {
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0a1022 0%, #141b37 100%);
+  background: linear-gradient(135deg, #0a1022 0%, #1a1d2e 100%);
   color: #e4e8fc;
   min-height: 100vh;
   padding: 0;
   transition: background 0.4s, color 0.4s;
-  position: relative;
-}
-body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(white 1.3px, transparent 1.3px) 90px 30px/180px 180px repeat,
-    radial-gradient(#cff6ffcc 1.2px, transparent 1.2px) 20px 55px/140px 140px repeat,
-    radial-gradient(#7ad0ffaa 0.8px, transparent 0.8px) 50px 120px/80px 80px repeat,
-    radial-gradient(#fff9c2aa 0.7px, transparent 0.7px) 0 0/120px 120px repeat,
-    radial-gradient(#6386fa44 0.5px, transparent 0.5px) 60px 80px/50px 50px repeat,
-    radial-gradient(white 0.4px, transparent 0.4px) 100px 140px/60px 60px repeat,
-    transparent;
-  animation: starfield-move 240s linear infinite;
-  opacity: 0.65;
-}
-@keyframes starfield-move {
-  from { background-position:
-    90px 30px, 20px 55px,
-    50px 120px, 0 0,
-    60px 80px, 100px 140px;
-  }
-  to { background-position:
-    90px 630px, 20px 655px,
-    50px 720px, 0 600px,
-    60px 680px, 100px 740px;
-  }
 }
 #app {
   max-width: 470px;
@@ -44,15 +13,12 @@ body::before {
   background: rgba(20,24,48,0.92);
   border-radius: 18px;
   box-shadow: 0 8px 32px 0 rgba(19,28,76,0.25);
-  backdrop-filter: blur(9px);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   align-items: center;
   position: relative;
 }
-
-/* Header, branding, tagline, help */
 .astro-header {
   width: 100%;
   text-align: center;
@@ -63,78 +29,78 @@ body::before {
 .astro-title {
   font-size: 2.1rem;
   font-weight: 700;
-  color: #b37cff;
+  color: #ff3c3c;
   letter-spacing: 0.5px;
   display: inline-block;
-  vertical-align: middle;
-}
-.astro-emoji {
-  font-size: 2rem;
-  vertical-align: middle;
-  margin-right: 0.4rem;
-  filter: drop-shadow(0 2px 3px #b37cff80);
 }
 .astro-tagline {
   margin-top: 0.3rem;
-  font-size: 1.05rem;
-  color: #b6b8e7;
+  font-size: 1.1rem;
+  color: #e4e8fc;
   letter-spacing: 0.1px;
-  font-weight: 400;
+  font-weight: 500;
   text-shadow: 0 1px 7px #181d39b0;
   margin-bottom: 0.5em;
 }
-.help-btn {
-  position: absolute;
-  right: 0.8rem;
-  top: 0.2rem;
-  background: #2a2250;
+.mode-row {
+  display: flex;
+  gap: 0.8rem;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+}
+.mode-btn {
+  padding: 8px 20px;
   border: none;
-  color: #b37cff;
-  font-size: 1.25rem;
+  border-radius: 8px;
+  font-size: 1.04rem;
+  font-weight: 600;
+  background: #241c2e;
+  color: #e4e8fc;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: background 0.15s, color 0.15s;
+  outline: none;
+  box-shadow: 0 2px 7px #1a204244;
+}
+.mode-btn.selected, .mode-btn:focus {
+  background: #ff3c3c;
+  color: #fff;
+}
+.options-btn {
+  background: #241c2e;
+  color: #ff3c3c;
+  border: none;
+  border-radius: 50%;
   width: 2.2rem;
   height: 2.2rem;
-  border-radius: 50%;
+  font-size: 1.3rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.18s, color 0.18s;
-  box-shadow: 0 2px 7px #1a204244;
+  margin-left: 1.2rem;
+  transition: background 0.15s, color 0.15s;
 }
-.help-btn:hover, .help-btn:focus { background: #b37cff; color: #fff; }
-.help-tooltip {
+.options-btn:focus, .options-btn:hover {
+  background: #ff3c3c;
+  color: #fff;
+}
+.options-panel {
   display: none;
-  position: absolute;
-  right: 0.2rem;
-  top: 2.3rem;
-  background: #221a3d;
-  color: #eee;
-  padding: 0.85rem 1.2rem;
-  border-radius: 0.7rem;
-  font-size: 1rem;
-  width: 260px;
-  box-shadow: 0 4px 28px 0 #0004;
-  z-index: 10;
-  text-align: left;
-  border: 1px solid #b37cff50;
-}
-.help-btn:focus + .help-tooltip,
-.help-btn:hover + .help-tooltip {
-  display: block;
-}
-
-/* Controls and form */
-.controls {
-  display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1rem;
   width: 100%;
+  margin-top: 1.2rem;
+  background: rgba(30, 20, 48, 0.90);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px #ff3c3c33;
+  padding: 1.1rem 1rem 1rem 1rem;
+  border: 1px solid #ff3c3c50;
+  animation: fadeInCard 0.6s cubic-bezier(.38,1.41,.66,.97);
 }
-#astroForm {
-  width: 100%;
+.options-panel.open {
   display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
 }
 .form-row {
   display: flex;
@@ -146,14 +112,14 @@ body::before {
 label {
   font-size: 1rem;
   min-width: 110px;
-  color: #d1bcff;
+  color: #ff3c3c;
   font-weight: 500;
 }
 select, input[type="number"] {
   font-size: 1rem;
   padding: 7px 12px;
   border-radius: 7px;
-  border: 1px solid #6254a8;
+  border: 1px solid #ff3c3c66;
   background: #1d1633;
   color: #e4e8fc;
   outline: none;
@@ -161,14 +127,14 @@ select, input[type="number"] {
   width: 120px;
 }
 select:focus, input[type="number"]:focus {
-  border-color: #b37cff;
-  background: #292054;
+  border-color: #ff3c3c;
+  background: #2a2645;
 }
 .threshold-help {
   display: inline-block;
   margin-left: 0.25rem;
   font-size: 1.1rem;
-  color: #b37cff;
+  color: #ff3c3c;
   cursor: pointer;
   border-radius: 50%;
   width: 1.3em;
@@ -177,7 +143,7 @@ select:focus, input[type="number"]:focus {
   transition: background 0.18s, color 0.18s;
 }
 .threshold-help:hover, .threshold-help:focus {
-  background: #b37cff;
+  background: #ff3c3c;
   color: #fff;
 }
 .threshold-tooltip {
@@ -193,7 +159,7 @@ select:focus, input[type="number"]:focus {
   left: 0.7rem;
   box-shadow: 0 8px 32px #0005;
   z-index: 10;
-  border: 1px solid #b37cff50;
+  border: 1px solid #ff3c3c50;
 }
 .threshold-help:hover + .threshold-tooltip,
 .threshold-help:focus + .threshold-tooltip {
@@ -201,28 +167,26 @@ select:focus, input[type="number"]:focus {
 }
 .button-row {
   display: flex;
+  justify-content: center;
   gap: 0.7rem;
   margin-top: 0.5rem;
 }
-button, #checkBtn {
-  padding: 8px 17px;
+#checkBtn {
+  padding: 13px 38px;
   border: none;
-  border-radius: 7px;
-  font-size: 1rem;
-  font-weight: 500;
-  background: linear-gradient(92deg, #3f297e 80%, #b37cff 100%);
+  border-radius: 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: linear-gradient(92deg, #2c172e 80%, #ff3c3c 100%);
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 2px 8px #322a5985;
+  box-shadow: 0 2px 18px #ff3c3c33;
   transition: background 0.2s, transform 0.12s;
+  letter-spacing: 1px;
 }
-button:hover, #checkBtn:hover {
-  background: linear-gradient(92deg, #b37cff 80%, #3f297e 100%);
+#checkBtn:hover, #checkBtn:focus {
+  background: linear-gradient(92deg, #ff3c3c 80%, #2c172e 100%);
   transform: translateY(-2px) scale(1.035);
-}
-button .icon, #checkBtn .icon {
-  margin-right: 0.25em;
-  font-size: 1.1em;
 }
 #results {
   width: 100%;
@@ -231,78 +195,88 @@ button .icon, #checkBtn .icon {
   gap: 0.8rem;
   margin-top: 0.1em;
 }
-
-/* Card styles and animation */
 .card {
-  padding: 1.1rem 1rem 1rem 1rem;
-  border-radius: 12px;
-  font-size: 1.08rem;
-  font-weight: 500;
+  padding: 1.2rem 1.1rem 1.1rem 1.1rem;
+  border-radius: 15px;
+  font-size: 1.12rem;
+  font-weight: 600;
   color: #fff;
-  box-shadow: 0 4px 16px rgba(90, 60, 169, 0.13);
+  box-shadow: 0 4px 18px #ff3c3c33;
   display: flex;
   flex-direction: column;
-  gap: 0.15em;
+  gap: 0.2em;
   opacity: 1;
   animation: fadeInCard 0.7s cubic-bezier(.48,1.41,.66,.97);
   transition: box-shadow 0.18s, opacity 0.2s;
 }
-.card.danger {
-  background: linear-gradient(93deg, #522177 70%, #8d39e1 100%);
-  color: #fff;
-  border: 1px solid #b37cff55;
-  box-shadow: 0 6px 32px #b37cff33;
-}
-.card.success {
-  background: linear-gradient(93deg, #24f4b6 80%, #1eacff 100%);
-  color: #0c2338;
-  border: 1px solid #3afccd44;
-  box-shadow: 0 6px 28px #24f4b655;
-}
-.card.error {
-  background: linear-gradient(93deg, #ff5370 90%, #b700ff 100%);
-  color: #fff;
-  border: 1px solid #ff537044;
-}
-.card.info {
-  background: linear-gradient(93deg, #7ad0ff 80%, #81e6d9 100%);
-  color: #12314a;
-  border: 1px solid #7ad0ff70;
-}
 .card-header {
-  font-size: 1.14rem;
+  font-size: 1.17rem;
   font-weight: bold;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.65em;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.6em;
+  letter-spacing: 1px;
 }
 .card .icon {
-  font-size: 1.2em;
-  margin-right: 0.15em;
+  font-size: 1.28em;
+  margin-right: 0.17em;
   vertical-align: middle;
 }
 .card-message {
-  font-size: 1.04rem;
-  font-weight: 500;
+  font-size: 1.08rem;
+  font-weight: 600;
   margin-top: 0.18em;
   margin-bottom: 0.1em;
   color: inherit;
 }
-.card-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 0.6em 0;
+.card.danger {
+  background: linear-gradient(93deg, #ff3c3c 70%, #2c172e 100%);
+  color: #fff;
+  border: 2px solid #ff3c3cbb;
+  box-shadow: 0 6px 32px #ff3c3c44;
+  animation: pulseDanger 1.2s infinite alternate;
 }
-.card-list li {
-  margin-bottom: 0.4em;
-  display: flex;
-  flex-direction: column;
-  gap: 0.1em;
+@keyframes pulseDanger {
+  0% { box-shadow: 0 6px 32px #ff3c3c44; }
+  100% { box-shadow: 0 0px 60px #ff3c3c99; }
 }
-.card-list strong {
-  color: #ffeaff;
+.card.success {
+  background: linear-gradient(93deg, #1bffb8 80%, #2c76ff 100%);
+  color: #0c2338;
+  border: 1.5px solid #1bffb888;
+  box-shadow: 0 6px 28px #1bffb655;
+}
+.collapse-maneuver {
+  background: #201622;
+  margin-top: 0.9em;
+  border-radius: 9px;
+  padding: 0.8em 1em;
+  color: #fbe6e6;
+  font-size: 1.02rem;
+  border: 1.5px solid #ff3c3c60;
+  box-shadow: 0 2px 8px #ff3c3c22;
+  display: none;
+  animation: fadeInCard 0.5s cubic-bezier(.38,1.41,.66,.97);
+}
+.collapse-maneuver.open {
+  display: block;
+}
+.collapse-toggle {
+  margin-top: 1em;
+  background: none;
+  color: #ff3c3c;
+  border: none;
+  font-size: 1.03rem;
   font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+.collapse-toggle:focus, .collapse-toggle:hover {
+  color: #fff;
+  background: #ff3c3c;
+  border-radius: 6px;
 }
 @media (max-width: 600px) {
   #app {
@@ -318,16 +292,9 @@ button .icon, #checkBtn .icon {
     align-items: stretch;
     gap: 0.4rem;
   }
-  button, #checkBtn {
+  #checkBtn, .mode-row {
     width: 100%;
   }
-  .astro-header {
-    padding-bottom: 0.3rem;
-  }
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(14px);}
-  to { opacity: 1; transform: none;}
 }
 @keyframes fadeInCard {
   from { opacity: 0; transform: translateY(35px) scale(0.98);}
