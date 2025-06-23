@@ -1,4 +1,29 @@
-// Fetch TLE data and detect collisions (MAIN FUNCTION - KEPT ON TOP)
+// Utility: Toggle options panel
+function toggleOptionsPanel() {
+  const panel = document.getElementById('optionsPanel');
+  panel.classList.toggle('open');
+}
+
+// Mode buttons logic
+function setupModeButtons() {
+  const liveBtn = document.getElementById('liveModeBtn');
+  const demoBtn = document.getElementById('demoModeBtn');
+  let mode = "live";
+  liveBtn.addEventListener('click', function() {
+    liveBtn.classList.add('selected');
+    demoBtn.classList.remove('selected');
+    mode = "live";
+    document.getElementById('mode').value = "live";
+  });
+  demoBtn.addEventListener('click', function() {
+    demoBtn.classList.add('selected');
+    liveBtn.classList.remove('selected');
+    mode = "demo";
+    document.getElementById('mode').value = "demo";
+  });
+}
+
+// Fetch TLE data and detect collisions (MAIN FUNCTION)
 function fetchTLE() {
   const mode = document.getElementById('mode').value;
   const group = document.getElementById('group').value;
@@ -59,14 +84,80 @@ function fetchTLE() {
     });
 }
 
-// Show help tooltip
-function showHelpTooltip() {
-  const helpBtn = document.querySelector('.help-btn');
-  const helpTooltip = document.querySelector('.help-tooltip');
-  helpBtn.addEventListener('focus', () => helpTooltip.style.display = 'block');
-  helpBtn.addEventListener('blur', () => helpTooltip.style.display = 'none');
-  helpBtn.addEventListener('mouseenter', () => helpTooltip.style.display = 'block');
-  helpBtn.addEventListener('mouseleave', () => helpTooltip.style.display = 'none');
+// Show result (danger or all clear, with collapsible maneuver suggestion)
+function showResult(resData) {
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+  if (Array.isArray(resData) && resData.length === 0) {
+    // All clear
+    results.innerHTML = `
+      <div class="card success">
+        <div class="card-header">
+          <span class="icon">✅</span>
+          <strong>ALL CLEAR</strong>
+        </div>
+        <div class="card-message">
+          No satellite collision risks detected.
+        </div>
+      </div>`;
+    const card = results.querySelector('.card.success');
+    if (card) animateCard(card);
+  } else if (Array.isArray(resData)) {
+    // Show each collision as a serious card with collapsible suggestion
+    resData.forEach((c, idx) => {
+      const tcaMin = Math.floor(c.tca / 60);
+      const tcaSec = Math.round(c.tca % 60);
+      let timeStr = tcaMin > 0 ? `${tcaMin} min` : '';
+      if (tcaSec > 0) timeStr += (timeStr ? ' ' : '') + `${tcaSec} sec`;
+      const maneuverId = `maneuver-${idx}`;
+      results.innerHTML += `
+        <div class="card danger">
+          <div class="card-header">
+            COLLISION RISK DETECTED <span class="icon">🚨</span>
+          </div>
+          <div class="card-message">
+            ${c.sat1} and ${c.sat2} will come within ${c.distance.toFixed(2)}km in ${timeStr || '1 sec'}.
+          </div>
+          <div class="card-message">
+            Immediate maneuver required to avoid catastrophic collision.
+          </div>
+          <button class="collapse-toggle" type="button" data-target="${maneuverId}">
+            Show Maneuver Suggestion ▼
+          </button>
+          <div class="collapse-maneuver" id="${maneuverId}">
+            Recommend a velocity adjustment (Δv) of
+            <b>${c.delta_v && c.delta_v[0] ? c.delta_v[0].toFixed(5) : '---'} km/s</b> to ${c.sat1}
+            and <b>${c.delta_v && c.delta_v[1] ? c.delta_v[1].toFixed(5) : '---'} km/s</b> to ${c.sat2}
+            to ensure safe separation.
+          </div>
+        </div>
+      `;
+    });
+    // Animate cards and set up collapse logic
+    results.querySelectorAll('.card.danger').forEach(animateCard);
+    setTimeout(() => {
+      document.querySelectorAll('.collapse-toggle').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const target = document.getElementById(btn.getAttribute('data-target'));
+          if (target) target.classList.toggle('open');
+          btn.textContent = target.classList.contains('open')
+            ? 'Hide Maneuver Suggestion ▲'
+            : 'Show Maneuver Suggestion ▼';
+        });
+      });
+    }, 100);
+  }
+}
+
+// Simple animation for cards
+function animateCard(card) {
+  card.style.opacity = 0;
+  card.style.transform = "translateY(30px) scale(0.98)";
+  setTimeout(() => {
+    card.style.transition = "all 0.7s cubic-bezier(.48,1.41,.66,.97)";
+    card.style.opacity = 1;
+    card.style.transform = "none";
+  }, 40);
 }
 
 // Show threshold tooltip
@@ -79,63 +170,28 @@ function showThresholdTooltip() {
   thresholdHelp.addEventListener('mouseleave', () => thresholdTooltip.style.display = 'none');
 }
 
-// Animate result card
-function animateCard(card) {
-  card.style.opacity = 0;
-  card.style.transform = "translateY(30px) scale(0.98)";
-  setTimeout(() => {
-    card.style.transition = "all 0.7s cubic-bezier(.48,1.41,.66,.97)";
-    card.style.opacity = 1;
-    card.style.transform = "none";
-  }, 50);
-}
-
-// Show result (danger or all clear)
-function showResult(resData) {
-  const results = document.getElementById('results');
-  results.innerHTML = '';
-  if (Array.isArray(resData) && resData.length === 0) {
-    // All clear
-    results.innerHTML = `
-      <div class="card success">
-        <div class="card-header">
-          <span class="icon">✅</span>
-          <strong>All Clear!</strong>
-        </div>
-        <div class="card-message">
-          No potential satellite collisions detected. All satellites are on a safe path.
-        </div>
-      </div>`;
-    const card = results.querySelector('.card.success');
-    if (card) animateCard(card);
-  } else if (Array.isArray(resData)) {
-    // Show each collision as a simple danger card (short format)
-    resData.forEach(c => {
-      const tcaMin = Math.floor(c.tca / 60);
-      const tcaSec = Math.round(c.tca % 60);
-      // Compose short message
-      let timeStr = tcaMin > 0 ? `${tcaMin} min` : '';
-      if (tcaSec > 0) timeStr += (timeStr ? ' ' : '') + `${tcaSec} sec`;
-      results.innerHTML += `
-        <div class="card danger">
-          <div class="card-header">
-            Danger! <span class="icon">🚨</span>
-          </div>
-          <div class="card-message">
-            ${c.sat1} and ${c.sat2} will come within ${c.distance.toFixed(2)}km in ${timeStr || 'soon'}.
-          </div>
-        </div>
-      `;
-    });
-    // Animate all danger cards
-    results.querySelectorAll('.card.danger').forEach(animateCard);
-  }
-}
-// DOMContentLoaded and form submit setup
 document.addEventListener('DOMContentLoaded', function() {
-  // Help and threshold tooltip setup
-  if (document.querySelector('.help-btn')) showHelpTooltip();
+  // Hide/show options panel
+  const optionsBtn = document.getElementById('optionsBtn');
+  if (optionsBtn) {
+    optionsBtn.addEventListener('click', toggleOptionsPanel);
+  }
+
+  // Setup mode buttons
+  setupModeButtons();
+
+  // Setup threshold tooltip
   if (document.querySelector('.threshold-help')) showThresholdTooltip();
+
+  // Set up hidden <select> for mode (for form compatibility)
+  if (!document.getElementById('mode')) {
+    const hiddenModeInput = document.createElement('input');
+    hiddenModeInput.type = "hidden";
+    hiddenModeInput.id = "mode";
+    hiddenModeInput.name = "mode";
+    hiddenModeInput.value = "live";
+    document.getElementById('astroForm').appendChild(hiddenModeInput);
+  }
 
   // Set up form
   const form = document.getElementById('astroForm');
@@ -145,15 +201,4 @@ document.addEventListener('DOMContentLoaded', function() {
       fetchTLE();
     });
   }
-
-  // Optionally, show initial demo result for hackathon/demo mode
-  // showResult([
-  //   {
-  //     sat1: "Starlink-123",
-  //     sat2: "Starlink-456",
-  //     distance: 1.2,
-  //     tca: 180, // 3min
-  //     delta_v: [0.00012, -0.00009, 0.00005]
-  //   }
-  // ]);
 });
