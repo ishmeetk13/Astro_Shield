@@ -84,11 +84,12 @@ function fetchTLE() {
     });
 }
 
-// Show result (danger or all clear, with collapsible maneuver suggestion)
+// Show result (danger or all clear, with one-by-one card navigation)
 function showResult(resData) {
   const results = document.getElementById('results');
   results.innerHTML = '';
-  if (Array.isArray(resData) && resData.length === 0) {
+
+  if (!Array.isArray(resData) || resData.length === 0) {
     // All clear
     results.innerHTML = `
       <div class="card success">
@@ -102,51 +103,89 @@ function showResult(resData) {
       </div>`;
     const card = results.querySelector('.card.success');
     if (card) animateCard(card);
-  } else if (Array.isArray(resData)) {
-    // Show each collision as a serious card with collapsible suggestion
-    resData.forEach((c, idx) => {
-      const tcaMin = Math.floor(c.tca / 60);
-      const tcaSec = Math.round(c.tca % 60);
-      let timeStr = tcaMin > 0 ? `${tcaMin} min` : '';
-      if (tcaSec > 0) timeStr += (timeStr ? ' ' : '') + `${tcaSec} sec`;
-      const maneuverId = `maneuver-${idx}`;
-      results.innerHTML += `
-        <div class="card danger">
-          <div class="card-header">
-            COLLISION RISK DETECTED <span class="icon">🚨</span>
-          </div>
-          <div class="card-message">
-            ${c.sat1} and ${c.sat2} will come within ${c.distance.toFixed(2)}km in ${timeStr || '1 sec'}.
-          </div>
-          <div class="card-message">
-            Immediate action needed
-          </div>
-          <button class="collapse-toggle" type="button" data-target="${maneuverId}">
-            Show Maneuver Suggestion ▼
-          </button>
-          <div class="collapse-maneuver" id="${maneuverId}">
-            Recommend a velocity adjustment (Δv) of
-            <b>${c.delta_v && c.delta_v[0] ? c.delta_v[0].toFixed(5) : '---'} km/s</b> to ${c.sat1}
-            and <b>${c.delta_v && c.delta_v[1] ? c.delta_v[1].toFixed(5) : '---'} km/s</b> to ${c.sat2}
-            to ensure safe separation.
-          </div>
-        </div>
-      `;
-    });
-    // Animate cards and set up collapse logic
-    results.querySelectorAll('.card.danger').forEach(animateCard);
-    setTimeout(() => {
-      document.querySelectorAll('.collapse-toggle').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const target = document.getElementById(btn.getAttribute('data-target'));
-          if (target) target.classList.toggle('open');
-          btn.textContent = target.classList.contains('open')
-            ? 'Hide Maneuver Suggestion ▲'
-            : 'Show Maneuver Suggestion ▼';
-        });
-      });
-    }, 100);
+    return;
   }
+
+  // Show summary
+  const total = resData.length;
+  const summary = document.createElement('div');
+  summary.className = "card";
+  summary.style.marginBottom = "1.2em";
+  summary.innerHTML = `<strong>${total} collision risk${total > 1 ? "s" : ""} detected. Review each risk:</strong>`;
+  results.appendChild(summary);
+
+  // Card container
+  const cardContainer = document.createElement('div');
+  cardContainer.id = "collision-card-container";
+  results.appendChild(cardContainer);
+
+  function renderCard(idx) {
+    cardContainer.innerHTML = "";
+    const c = resData[idx];
+    const tcaMin = Math.floor(c.tca / 60);
+    const tcaSec = Math.round(c.tca % 60);
+    let timeStr = tcaMin > 0 ? `${tcaMin} min` : '';
+    if (tcaSec > 0) timeStr += (timeStr ? ' ' : '') + `${tcaSec} sec`;
+    const maneuverId = `maneuver-${idx}`;
+    const isLast = idx === resData.length - 1;
+
+    const cardDiv = document.createElement('div');
+    cardDiv.className = "card danger";
+    cardDiv.innerHTML = `
+      <div class="card-header">
+        COLLISION RISK DETECTED <span class="icon">🚨</span>
+      </div>
+      <div class="card-message">
+        ${c.sat1} and ${c.sat2} will come within ${c.distance.toFixed(2)}km in ${timeStr || '1 sec'}.
+      </div>
+      <div class="card-message immediate-action">
+        Immediate action needed.
+      </div>
+      <button class="collapse-toggle" type="button" data-target="${maneuverId}">
+        Show Maneuver Suggestion ▼
+      </button>
+      <div class="collapse-maneuver" id="${maneuverId}">
+        Recommend a velocity adjustment (Δv) of
+        <b>${c.delta_v && c.delta_v[0] ? c.delta_v[0].toFixed(5) : '---'} km/s</b> to ${c.sat1}
+        and <b>${c.delta_v && c.delta_v[1] ? c.delta_v[1].toFixed(5) : '---'} km/s</b> to ${c.sat2}
+        to ensure safe separation.
+      </div>
+      <div class="card-nav-row">
+        ${!isLast
+          ? `<button class="next-btn" type="button">Next →</button>`
+          : ``
+        }
+      </div>
+    `;
+    cardContainer.appendChild(cardDiv);
+
+    animateCard(cardDiv);
+
+    // Collapse logic
+    cardDiv.querySelector('.collapse-toggle').addEventListener('click', function () {
+      const target = document.getElementById(maneuverId);
+      if (target) target.classList.toggle('open');
+      this.textContent = target.classList.contains('open')
+        ? 'Hide Maneuver Suggestion ▲'
+        : 'Show Maneuver Suggestion ▼';
+    });
+
+    // Next logic
+    const nextBtn = cardDiv.querySelector('.next-btn');
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        // Card fade out
+        cardDiv.style.transition = "opacity 0.4s";
+        cardDiv.style.opacity = 0;
+        setTimeout(() => {
+          renderCard(idx + 1);
+        }, 400);
+      });
+    }
+  }
+
+  // Start with the first card
+  renderCard(0);
 }
 
 // Simple animation for cards
