@@ -5,6 +5,37 @@ body {
   min-height: 100vh;
   padding: 0;
   transition: background 0.4s, color 0.4s;
+  position: relative;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(white 1.3px, transparent 1.3px) 90px 30px/180px 180px repeat,
+    radial-gradient(#cff6ffcc 1.2px, transparent 1.2px) 20px 55px/140px 140px repeat,
+    radial-gradient(#7ad0ffaa 0.8px, transparent 0.8px) 50px 120px/80px 80px repeat,
+    radial-gradient(#fff9c2aa 0.7px, transparent 0.7px) 0 0/120px 120px repeat,
+    radial-gradient(#6386fa44 0.5px, transparent 0.5px) 60px 80px/50px 50px repeat,
+    radial-gradient(white 0.4px, transparent 0.4px) 100px 140px/60px 60px repeat,
+    transparent;
+  animation: starfield-move 240s linear infinite;
+  opacity: 0.65;
+}
+@keyframes starfield-move {
+  from { background-position:
+    90px 30px, 20px 55px,
+    50px 120px, 0 0,
+    60px 80px, 100px 140px;
+  }
+  to { background-position:
+    90px 630px, 20px 655px,
+    50px 720px, 0 600px,
+    60px 680px, 100px 740px;
+  }
 }
 #app {
   max-width: 470px;
@@ -19,6 +50,7 @@ body {
   align-items: center;
   position: relative;
 }
+
 .astro-header {
   width: 100%;
   text-align: center;
@@ -29,7 +61,7 @@ body {
 .astro-title {
   font-size: 2.1rem;
   font-weight: 700;
-  color: #ff3c3c;
+  color: #dc143c; /* crimson */
   letter-spacing: 0.5px;
   display: inline-block;
 }
@@ -64,12 +96,12 @@ body {
   box-shadow: 0 2px 7px #1a204244;
 }
 .mode-btn.selected, .mode-btn:focus {
-  background: #ff3c3c;
+  background: #dc143c;
   color: #fff;
 }
 .options-btn {
   background: #241c2e;
-  color: #ff3c3c;
+  color: #dc143c;
   border: none;
   border-radius: 50%;
   width: 2.2rem;
@@ -83,7 +115,7 @@ body {
   transition: background 0.15s, color 0.15s;
 }
 .options-btn:focus, .options-btn:hover {
-  background: #ff3c3c;
+  background: #dc143c;
   color: #fff;
 }
 .options-panel {
@@ -94,9 +126,9 @@ body {
   margin-top: 1.2rem;
   background: rgba(30, 20, 48, 0.90);
   border-radius: 10px;
-  box-shadow: 0 2px 12px #ff3c3c33;
+  box-shadow: 0 2px 12px #dc143c33;
   padding: 1.1rem 1rem 1rem 1rem;
-  border: 1px solid #ff3c3c50;
+  border: 1px solid #dc143c50;
   animation: fadeInCard 0.6s cubic-bezier(.38,1.41,.66,.97);
 }
 .options-panel.open {
@@ -112,14 +144,14 @@ body {
 label {
   font-size: 1rem;
   min-width: 110px;
-  color: #ff3c3c;
+  color: #dc143c;
   font-weight: 500;
 }
 select, input[type="number"] {
   font-size: 1rem;
   padding: 7px 12px;
   border-radius: 7px;
-  border: 1px solid #ff3c3c66;
+  border: 1px solid #dc143c66;
   background: #1d1633;
   color: #e4e8fc;
   outline: none;
@@ -127,14 +159,14 @@ select, input[type="number"] {
   width: 120px;
 }
 select:focus, input[type="number"]:focus {
-  border-color: #ff3c3c;
+  border-color: #dc143c;
   background: #2a2645;
 }
 .threshold-help {
   display: inline-block;
   margin-left: 0.25rem;
   font-size: 1.1rem;
-  color: #ff3c3c;
+  color: #dc143c;
   cursor: pointer;
   border-radius: 50%;
   width: 1.3em;
@@ -143,7 +175,7 @@ select:focus, input[type="number"]:focus {
   transition: background 0.18s, color 0.18s;
 }
 .threshold-help:hover, .threshold-help:focus {
-  background: #ff3c3c;
+  background: #dc143c;
   color: #fff;
 }
 .threshold-tooltip {
@@ -159,7 +191,7 @@ select:focus, input[type="number"]:focus {
   left: 0.7rem;
   box-shadow: 0 8px 32px #0005;
   z-index: 10;
-  border: 1px solid #ff3c3c50;
+  border: 1px solid #dc143c50;
 }
 .threshold-help:hover + .threshold-tooltip,
 .threshold-help:focus + .threshold-tooltip {
@@ -177,15 +209,15 @@ select:focus, input[type="number"]:focus {
   border-radius: 10px;
   font-size: 1.15rem;
   font-weight: 700;
-  background: linear-gradient(92deg, #2c172e 80%, #ff3c3c 100%);
+  background: linear-gradient(92deg, #2c172e 80%, #dc143c 100%);
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 2px 18px #ff3c3c33;
+  box-shadow: 0 2px 18px #dc143c33;
   transition: background 0.2s, transform 0.12s;
   letter-spacing: 1px;
 }
 #checkBtn:hover, #checkBtn:focus {
-  background: linear-gradient(92deg, #ff3c3c 80%, #2c172e 100%);
+  background: linear-gradient(92deg, #dc143c 80%, #2c172e 100%);
   transform: translateY(-2px) scale(1.035);
 }
 #results {
@@ -201,7 +233,7 @@ select:focus, input[type="number"]:focus {
   font-size: 1.12rem;
   font-weight: 600;
   color: #fff;
-  box-shadow: 0 4px 18px #ff3c3c33;
+  box-shadow: 0 4px 18px #dc143c33;
   display: flex;
   flex-direction: column;
   gap: 0.2em;
@@ -231,31 +263,31 @@ select:focus, input[type="number"]:focus {
   color: inherit;
 }
 .card.danger {
-  background: linear-gradient(93deg, #ff3c3c 70%, #2c172e 100%);
+  background: linear-gradient(93deg, #dc143c 70%, #2c172e 100%);
   color: #fff;
-  border: 2px solid #ff3c3cbb;
-  box-shadow: 0 6px 32px #ff3c3c44;
+  border: 2px solid #dc143cbb;
+  box-shadow: 0 6px 32px #dc143c44;
   animation: pulseDanger 1.2s infinite alternate;
 }
 @keyframes pulseDanger {
-  0% { box-shadow: 0 6px 32px #ff3c3c44; }
-  100% { box-shadow: 0 0px 60px #ff3c3c99; }
+  0% { box-shadow: 0 6px 32px #dc143c44; }
+  100% { box-shadow: 0 0px 60px #dc143c99; }
 }
 .card.success {
-  background: linear-gradient(93deg, #1bffb8 80%, #2c76ff 100%);
-  color: #0c2338;
-  border: 1.5px solid #1bffb888;
-  box-shadow: 0 6px 28px #1bffb655;
+  background: linear-gradient(93deg, #23274d 80%, #1b2341 100%);
+  color: #e4e8fc;
+  border: 1.5px solid #7a78a1;
+  box-shadow: 0 6px 28px #23274d99;
 }
 .collapse-maneuver {
-  background: #201622;
+  background: #2d223a;
   margin-top: 0.9em;
   border-radius: 9px;
   padding: 0.8em 1em;
-  color: #fbe6e6;
-  font-size: 1.02rem;
-  border: 1.5px solid #ff3c3c60;
-  box-shadow: 0 2px 8px #ff3c3c22;
+  color: #ffe8fb; /* High-contrast for visibility */
+  font-size: 1.06rem;
+  border: 1.5px solid #dc143c60;
+  box-shadow: 0 2px 8px #dc143c22;
   display: none;
   animation: fadeInCard 0.5s cubic-bezier(.38,1.41,.66,.97);
 }
@@ -265,7 +297,7 @@ select:focus, input[type="number"]:focus {
 .collapse-toggle {
   margin-top: 1em;
   background: none;
-  color: #ff3c3c;
+  color: #dc143c;
   border: none;
   font-size: 1.03rem;
   font-weight: 600;
@@ -275,7 +307,7 @@ select:focus, input[type="number"]:focus {
 }
 .collapse-toggle:focus, .collapse-toggle:hover {
   color: #fff;
-  background: #ff3c3c;
+  background: #dc143c;
   border-radius: 6px;
 }
 @media (max-width: 600px) {
