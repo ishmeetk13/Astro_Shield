@@ -111,7 +111,7 @@ function showResult(resData) {
   const summary = document.createElement('div');
   summary.className = "card";
   summary.style.marginBottom = "1.2em";
-  summary.innerHTML = `<strong>${total} collision risk${total > 1 ? "s" : ""} detected. Review each risk:</strong>`;
+  summary.innerHTML = `<strong>${total} collision risk${total > 1 ? "s" : ""} detected.</strong>`;
   results.appendChild(summary);
 
   // Card container
