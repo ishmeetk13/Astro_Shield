@@ -1,4 +1,4 @@
-# Astro_Shield
+# AstroShield
 
 **Predicting Satellite Collisions with Real Orbital Data**
 
