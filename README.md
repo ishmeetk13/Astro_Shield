@@ -36,13 +36,13 @@ AstroShield provides a simple, interactive, and visually engaging platform to pr
 
 ## Deployment
 
-**Live Demo:** 
+**Live Demo:** https://astroshield.onrender.com
 ---
 
 ## How to Use
 
 1. **Open the Web App**  
-   Go to the 
+   Go to the https://astroshield.onrender.com
 2. **Choose a Mode**  
    - **LIVE** for real satellite data
    - **DEMO** for sample/test data
